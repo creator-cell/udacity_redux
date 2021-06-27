@@ -1,3 +1,4 @@
+// Getting the state
 function createStore(){
     // The store should have four parts
     // 1. The state
