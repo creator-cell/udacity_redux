@@ -1,43 +1,40 @@
-// Reducer function
-function todos(state = [], action){
-    if (action.type === "ADD_TODO") {
-        return state.concat([action.todo])
-
-    }
-    return state;
-}
-function createStore(){
+// Library Code
+function createStore (reducer) {
     // The store should have four parts
     // 1. The state
     // 2. Get the state.
     // 3. Listen to changes on the state.
     // 4. Update the state
   
-    let state;
-
-    let listeners = [];
-
+    let state
+    let listeners = []
+  
     const getState = () => state
-
-    const subscribe = (listener) =>{
-        listeners.push(listener)
-        return () => {
-            listeners = listeners.filter((l) => l !== listener)
-        }
+  
+    const subscribe = (listener) => {
+      listeners.push(listener)
+      return () => {
+        listeners = listeners.filter((l) => l !== listener)
+      }
     }
-
-    // Dispatch function
-    // Responsible for updating the state
-
+  
     const dispatch = (action) => {
-        state = todos(state, action)
-        listeners.forEach((listener) => listener())
+      state = reducer(state, action)
+      listeners.forEach((listener) => listener())
     }
   
     return {
-        getState,
-        subscribe
+      getState,
+      subscribe,
+      dispatch,
     }
   }
-
- 
+  
+  // App Code
+  function todos (state = [], action) {
+    if (action.type === 'ADD_TODO') {
+      return state.concat([action.todo])
+    }
+  
+    return state
+  }
